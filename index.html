@@ -102,6 +102,119 @@
 					<h1>JSR-352</h1>
 				</section>
 
+				<section>
+					<blockquote cite="http://jaxenter.com/java-ee-7-introduction-to-batch-jsr-352-47400.html"><p>JSR 352 introduces an exciting new Java specification for building, deploying, and running batch applications.</p><footer>- Chris Vignola</footer></blockquote>
+				</section>
+
+				<section>
+					<h1>Spring's involvement</h1>
+					<p>Pie graph of EG?</p>
+				</section>
+
+				<section>
+					<h1>Spring Batch is a leader in the space</h1>
+				</section>
+
+				<section>
+					<h1>Results of the spec?</h1>
+				</section>
+
+				<section>
+					<h1>3</h1>
+					<ul>
+						<li class="fragment">API for building batch components</li>
+						<li class="fragment">A DSL for configuring batch components</li>
+						<li class="fragment">A contract of how batch components interact</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Dig into code</h1>
+				</section>
+
+				<section>
+					<h1>Spring Batch Job</h1>
+					<pre><code data-trim contenteditable class="xml">
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;tasklet&gt;
+            &lt;chunk reader="itemReader" 
+                   processor="itemProcessor" 
+                   writer="itemWriter"
+                   commit-interval="5"/&gt;
+        &lt;/tasklet&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>JSR-352 Job</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk item-count="5"&gt;
+            &lt;reader ref="itemReader"/&gt;
+            &lt;processor ref="itemProcessor"/&gt;
+            &lt;writer ref="itemWriter"/&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Dependency Injection</h1>
+					<ul>
+						<li class="fragment">Foundational technology of Spring Batch</li>
+						<li class="fragment">Not required with JSR-352</li> 
+				</section>
+
+				<section>
+					<h1>?</h1>
+				</section>
+
+				<section>
+					<h1>References in JSR-352</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk item-count="5"&gt;
+            &lt;reader ref="itemReader"/&gt;
+            &lt;processor ref="itemProcessor"/&gt;
+            &lt;writer ref="itemWriter"/&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>References point to 1 of 3 places</h1>
+					<ul>
+						<li class="fragment">Spring bean</li>
+						<li class="fragment">batch.xml definition</li>
+						<li class="fragment">The class itself</li>
+				</section>
+
+				<section>
+					<h1>batch.xml</h1>
+					<pre><code data-trim contenteditable>
+&lt;batch-artifacts xmlns="http://xmlns.jcp.org/xml/ns/javaee"&gt;
+	&lt;ref id="itemReader" class="org.sf.jsr.demo.ItemReader" /&gt;
+	&lt;ref id="itemProcessor" class="org.sf.jsr.demo.ItemProcessor" /&gt;
+	&lt;ref id="itemWriter" class="org.sf.jsr.demo.ItemWriter" /&gt;
+&lt;/batch&gt;
+					</code></pre>
+				</section>
+
+
+
+
+
+
+
+
 
 
 

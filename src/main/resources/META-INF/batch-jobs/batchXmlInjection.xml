@@ -3,8 +3,9 @@
 	<step id="step1">
 		<batchlet ref="helloWorldBatchlet">
 			<properties>
-				<property name="greeting" value="Bonjour"/>
-			</properties>
+ 				<property name="greeting" value="Bonjour"/>
+<!-- 				<property name="greeting" value="#{jobParameters['greeting']}"/>
+ -->			</properties>
 		</batchlet>
 	</step>
 </job>

@@ -111,7 +111,7 @@
 				</section>
 
 				<section>
-					<blockquote cite="http://jaxenter.com/java-ee-7-introduction-to-batch-jsr-352-47400.html"><p>JSR 352 introduces an exciting new Java specification for building, deploying, and running batch applications.</p><footer>- Chris Vignola</footer></blockquote>
+					<blockquote cite="http://jaxenter.com/java-ee-7-introduction-to-batch-jsr-352-47400.html"><p>JSR-352 introduces an exciting new Java specification for building, deploying, and running batch applications.</p><footer style="text-align:right;">- <a href="http://jaxenter.com/java-ee-7-introduction-to-batch-jsr-352-47400.html">Chris Vignola</a></footer></blockquote>
 				</section>
 
 				<section data-state="spring-involvement">
@@ -141,7 +141,7 @@
 				</section>
 
 				<section>
-					<h1>Dig into code</h1>
+					<h1>High level differences</h1>
 				</section>
 
 				<section data-transition="fade">
@@ -175,7 +175,7 @@
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-transition="fade">
 					<div>
 						<pre><code data-trim contenteditable class="xml">
 &lt;!-- Spring Batch --&gt;
@@ -206,14 +206,14 @@
 				</section>
 
 				<section>
+					<h1>?</h1>
+				</section>
+
+				<section>
 					<h1>Dependency Injection</h1>
 					<ul>
 						<li class="fragment">Foundational technology of Spring Batch</li>
 						<li class="fragment">Not required with JSR-352</li> 
-				</section>
-
-				<section>
-					<h1>?</h1>
 				</section>
 
 				<section>
@@ -247,9 +247,11 @@
 					<h1>batch.xml</h1>
 					<pre><code data-trim contenteditable>
 &lt;batch-artifacts xmlns="http://xmlns.jcp.org/xml/ns/javaee"&gt;
+
     &lt;ref id="itemReader" class="org.sf.jsr.demo.ItemReader" /&gt;
     &lt;ref id="itemProcessor" class="org.sf.jsr.demo.ItemProcessor" /&gt;
     &lt;ref id="itemWriter" class="org.sf.jsr.demo.ItemWriter" /&gt;
+
 &lt;/batch-artifacts&gt;
 					</code></pre>
 				</section>
@@ -274,11 +276,56 @@
 				</section>
 
 				<section>
+						<pre><code data-trim contenteditable class="java">
+// Spring Batch
+public interface ItemReader&lt;T&gt; {
+    T read() throws Exception;
+}
+
+public interface ItemStream {
+    void open(ExecutionContext ec) throws ItemStreamException;
+    void update(ExecutionContext ec) throws ItemStreamException;
+    void close() throws ItemStreamException;
+}
+						</code></pre>
+						<pre><code data-trim contenteditable class="java">
+// JSR-352
+public interface ItemReader {
+    public void open(Serializable checkpoint) throws Exception;
+    public void close() throws Exception;
+    public Object readItem() throws Exception;
+    public Serializable checkpointInfo() throws Exception; 
+}
+
+public abstract class AbstractItemReader implements ItemReader {
+    public void open(Serializable checkpoint) throws Exception { }
+    public void close() throws Exception { }
+    public abstract Object readItem() throws Exception;
+    public Serializable checkpointInfo() throws Exception { 
+        return null; 
+    }
+}
+						</code></pre>
+					<aside class="notes">
+						org.springframework.batch.item.ItemReader#read() throws more than just Exception, but above is for brevity
+						@Override's have been removed from javax.batch.api.chunk.AbstractItemReader for brevity
+					</aside>
+				</section>
+
+				<section>
+					<h1>Step Processing Models</h1>
+				</section>
+
+				<section>
+					<p>Image of job with both tasklet and chunk processing</p>
+				</section>
+
+				<section>
 					<h1>Interfaces</h1>
 				</section>
 
 				<section>
-					<h1>Batchlet = Tasklet</h1>
+					<h1>Batchlet = StoppableTasklet</h1>
 				</section>
 
 				<section>
@@ -287,6 +334,10 @@
 
 				<section>
 					<h1>Chunk processing</h1>
+				</section>
+
+				<section>
+					<h1>Spring Batch</h1>
 					<p>Old sequence diagram</p>
 				</section>
 
@@ -366,6 +417,8 @@
 				progress: true,
 				history: true,
 				center: true,
+				width: 1280,
+				height: 720,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none

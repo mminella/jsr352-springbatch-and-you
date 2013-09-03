@@ -120,6 +120,10 @@
 				</section>
 
 				<section>
+					<p>A picture of the spec next to our documentation</p>
+				</section>
+
+				<section>
 					<h1>3</h1>
 					<ul>
 						<li class="fragment">API for building batch components</li>
@@ -132,7 +136,7 @@
 					<h1>Dig into code</h1>
 				</section>
 
-				<section>
+				<section data-transition="fade">
 					<h1>Spring Batch Job</h1>
 					<pre><code data-trim contenteditable class="xml">
 &lt;job id="personJob"&gt;
@@ -148,7 +152,7 @@
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-transition="fade">
 					<h1>JSR-352 Job</h1>
 					<pre><code data-trim contenteditable>
 &lt;job id="personJob"&gt;
@@ -198,18 +202,71 @@
 				</section>
 
 				<section>
+					<h1>Spring bean</h1>
+				</section>
+
+				<section>
 					<h1>batch.xml</h1>
 					<pre><code data-trim contenteditable>
 &lt;batch-artifacts xmlns="http://xmlns.jcp.org/xml/ns/javaee"&gt;
-	&lt;ref id="itemReader" class="org.sf.jsr.demo.ItemReader" /&gt;
-	&lt;ref id="itemProcessor" class="org.sf.jsr.demo.ItemProcessor" /&gt;
-	&lt;ref id="itemWriter" class="org.sf.jsr.demo.ItemWriter" /&gt;
-&lt;/batch&gt;
+    &lt;ref id="itemReader" class="org.sf.jsr.demo.ItemReader" /&gt;
+    &lt;ref id="itemProcessor" class="org.sf.jsr.demo.ItemProcessor" /&gt;
+    &lt;ref id="itemWriter" class="org.sf.jsr.demo.ItemWriter" /&gt;
+&lt;/batch-artifacts&gt;
 					</code></pre>
 				</section>
 
+				<section>
+					<h1>The class itself</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk item-count="5"&gt;
+            &lt;reader ref="org.sf.jsr.demo.ItemReader"/&gt;
+            &lt;processor ref="org.sf.jsr.demo.ItemProcessor"/&gt;
+            &lt;writer ref="org.sf.jsr.demo.ItemWriter"/&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+				</section>
 
+				<section>
+					<h1>Composed interfaces vs Abstract classes</h1>
+				</section>
 
+				<section>
+					<h1>Interfaces</h1>
+				</section>
+
+				<section>
+					<h1>Batchlet = Tasklet</h1>
+				</section>
+
+				<section>
+					<h1>Chunk based interfaces</h1>
+					<ul>
+						<li class="fragment">ItemReader</li>
+						<li class="fragment">ItemProcessor</li>
+						<li class="fragment">ItemWriter</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Checkpoints</h1>
+				</section>
+
+				<section>
+					<h1>Listener interfaces</h1>
+					<ul>
+						<li class="fragment">JobListener</li>
+						<li class="fragment">StepListener</li>
+						<li class="fragment">ChunkListener</li>
+						<li class="fragment">SkipListener</li>
+						<li class="fragment">RetryListener</li>
+				</section>
+
+				
 
 
 

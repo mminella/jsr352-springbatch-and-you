@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<job id="helloWorld" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	<step id="step1">
+		<batchlet ref="org.springframework.batch.jsr.demo.batchlet.HelloWorldBatchlet"/>
+	</step>
+</job>

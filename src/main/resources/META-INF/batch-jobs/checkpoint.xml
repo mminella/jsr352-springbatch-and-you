@@ -1,6 +1,54 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<job id="checkpoint" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
-	<step id="step1">
-		<batchlet ref="org.springframework.batch.jsr.demo.batchlet.HelloWorldBatchlet"/>
-	</step>
-</job>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/beans">
+
+	<bean id="fileReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource" value="classpath:/data/customer.csv"/>
+		<property name="linesToSkip" value="1"/>
+	    <property name="lineMapper">
+	        <bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+	            <property name="lineTokenizer">
+	                <bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+	                    <property name="delimiter" value="|"/>
+	                    <property name="names"
+	                        value="name,phone,email,address,city"/>
+	                </bean>
+	            </property>
+	            <property name="fieldSetMapper">
+	                <bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+	                	<property name="prototypeBeanName" value="customer"/>
+ 	                </bean>
+	            </property>
+	        </bean>
+	    </property>
+	</bean>
+
+	<bean id="customer" class="org.springframework.batch.jsr.domain.Customer" scope="prototype"/>
+
+	<bean id="xmlWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+    	<property name="resource" value="file://tmp/customer.xml" />
+    	<property name="marshaller" ref="customerMarshaller" />
+    	<property name="rootTagName" value="customers" />
+	</bean>
+
+	<bean id="customerMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+	    <property name="aliases">
+	        <util:map>
+	            <entry key="customer" value="org.springframework.batch.jsr.domain.Customer" />
+	        </util:map>
+	    </property>
+	</bean>
+
+	<bean id="customCheckpoint" class="org.springframework.batch.jsr.chunk.RandomCheckpointAlgorithm" scope="step"/>
+
+	<job id="checkpoint" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	    <step id="step1">
+	        <chunk checkpoint-policy="custom">
+	            <reader ref="fileReader"/>
+	            <writer ref="xmlWriter"/>
+	            <checkpoint-algorithm ref="customCheckpoint"/>
+	        </chunk>
+	    </step>
+	</job>
+</beans>

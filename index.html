@@ -214,6 +214,9 @@
 					<ul>
 						<li class="fragment">Foundational technology of Spring Batch</li>
 						<li class="fragment">Not required with JSR-352</li> 
+					<aside class="notes">
+						Not required meaning no JSR-299 or JSR-330 etc implementation is required
+					</aside>
 				</section>
 
 				<section>
@@ -241,6 +244,13 @@
 
 				<section>
 					<h1>Spring bean</h1>
+					<pre><code data-trim contenteditable class="xml">
+&lt;bean id="itemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter"&gt;
+    &lt;property name="resource" ref="outputFile" /&gt;
+    &lt;property name="marshaller" ref="customerMarshaller" /&gt;
+    &lt;property name="rootTagName" value="customers" /&gt;
+&lt;/bean&gt;
+					</code></pre>					
 				</section>
 
 				<section>
@@ -367,6 +377,9 @@ public abstract class AbstractItemReader implements ItemReader {
 						<li class="fragment">Timeout</li>
 						<li class="fragment">Custom</li>
 					</ul>
+					<aside class="notes">
+						Equivilant to Spring Batch's CompletionPolicy
+					</aside>
 				</section>
 
 				<section>

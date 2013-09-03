@@ -323,6 +323,56 @@ public abstract class AbstractItemReader implements ItemReader {
 				</section>
 
 				<section>
+					<h1>Properties</h1>
+					<ul>
+						<li class="fragment">Spring injects them on bean definitions</li>
+						<li class="fragment">JSR-352 injects properties from the job definition</li>
+				</section>
+
+				<section>
+					<h1>Spring Batch Job</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="formatJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;tasklet&gt;
+            &lt;chunk reader="fileReader" 
+                   writer="xmlWriter" 
+                   commit-interval="#{jobParameters['commit.interval']}"/&gt;
+        &lt;/tasklet&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+					<aside class="notes">
+						Assume both fileReader and xmlWriter need file names to be injected
+					</aside>
+				</section>
+
+				<section>
+					<h1>JSR-352 Job</h1>
+					<pre><code data-trim contenteditable class="xml">
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk item-count="5"&gt;
+            &lt;reader ref="fileReader"&gt;
+                &lt;properties&gt;
+                    &lt;property name="fileName" value="#{jobParameters['input.fileName']}"/&gt;
+                &lt;/properties&gt;
+            &lt;/reader&gt;
+            &lt;writer ref="xmlWriter"&gt;
+                &lt;properties&gt;
+                    &lt;property name="fileName" value="#{jobParameters['output.fileName']}"/&gt;
+                &lt;/properties&gt;
+            &lt;/writer&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+					<aside class="notes">
+						All JSR-352 properties are Strings
+					</aside>
+				</section>
+
+				<section>
 					<h1>Step Processing Models</h1>
 				</section>
 

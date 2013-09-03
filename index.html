@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="css/theme/spring.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -95,6 +95,14 @@
 				</section>
 
 				<section>
+					<h1>Expectations</h1>
+					<ul>
+						<li class="fragment">basic knowledge of spring</li>
+						<li class="fragment">basic knowledge of spring batch</li>
+					</ul>
+				</section>
+
+				<section>
 					<h1>? when you have them</h1>
 				</section>
 
@@ -142,10 +150,10 @@
 &lt;job id="personJob"&gt;
     &lt;step id="step1"&gt;
         &lt;tasklet&gt;
-            &lt;chunk reader="itemReader" 
+            &lt;chunk commit-interval="5"
+                   reader="itemReader" 
                    processor="itemProcessor" 
-                   writer="itemWriter"
-                   commit-interval="5"/&gt;
+                   writer="itemWriter" /&gt;
         &lt;/tasklet&gt;
     &lt;/step&gt;
 &lt;/job&gt;
@@ -165,6 +173,36 @@
     &lt;/step&gt;
 &lt;/job&gt;
 					</code></pre>
+				</section>
+
+				<section>
+					<div>
+						<pre><code data-trim contenteditable class="xml">
+&lt;!-- Spring Batch --&gt;
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;tasklet&gt;
+            &lt;chunk commit-interval="5"
+                   reader="itemReader" 
+                   processor="itemProcessor" 
+                   writer="itemWriter"/&gt;
+        &lt;/tasklet&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+						</code></pre>
+						<pre><code data-trim contenteditable>
+&lt;!-- JSR-352 --&gt;
+&lt;job id="personJob"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk item-count="5"&gt;
+            &lt;reader ref="itemReader"/&gt;
+            &lt;processor ref="itemProcessor"/&gt;
+            &lt;writer ref="itemWriter"/&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+						</code></pre>
+					</div>
 				</section>
 
 				<section>
@@ -241,6 +279,25 @@
 
 				<section>
 					<h1>Batchlet = Tasklet</h1>
+				</section>
+
+				<section>
+					<h1>Hello world!</h1>
+				</section>
+
+				<section>
+					<h1>Chunk processing</h1>
+					<p>Old sequence diagram</p>
+				</section>
+
+				<section>
+					<h1>Real Spring Batch chunking</h1>
+					<p>New sequence diagram</p>
+				</section>
+
+				<section>
+					<h1>JSR-352</h1>
+					<p>Old sequence diagram</p>
 				</section>
 
 				<section>

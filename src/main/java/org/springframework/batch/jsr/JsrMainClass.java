@@ -20,10 +20,14 @@ public class JsrMainClass {
 			jobParameters.put(args[i].substring(0, args[i].indexOf('=')), args[1].substring(args[i].indexOf('=') + 1));
 		}
 
+		long executionId = -1;
+
 		if(restart) {
-			jobOperator.restart(Long.parseLong(args[0]), jobParameters);
+			executionId = jobOperator.restart(Long.parseLong(args[0]), jobParameters);
 		} else {
-			jobOperator.start(args[0], jobParameters);
+			executionId = jobOperator.start(args[0], jobParameters);
 		}
+
+		System.err.println(">>> The execution id of the job run was : " + executionId);
 	}
 }

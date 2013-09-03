@@ -381,7 +381,7 @@ public abstract class AbstractItemReader implements ItemReader {
 				</section>
 
 				<section>
-					<h1>Interfaces</h1>
+					<h1>Batchlet</h1>
 				</section>
 
 				<section>
@@ -389,7 +389,23 @@ public abstract class AbstractItemReader implements ItemReader {
 				</section>
 
 				<section>
-					<h1>Hello world!</h1>
+					<pre><code data-trim contenteditable class="java">
+public interface Tasklet {
+    RepeatStatus execute(StepContribution contribution, 
+                         ChunkContext chunkContext) throws Exception;
+}
+
+public interface StoppableTasklet extends Tasklet {
+    void stop();
+}
+					</code></pre>
+					<pre><code data-trim contenteditable class="java">
+public interface Batchlet {
+	
+    public String process() throws Exception;
+    public void stop() throws Exception;  
+}
+					</code></pre>
 				</section>
 
 				<section>
@@ -443,6 +459,17 @@ public abstract class AbstractItemReader implements ItemReader {
 					</ul>
 				</section>
 
+				<section>
+					<h1>Error handling</h1>
+				</section>
+
+				<section>
+					<h1>Launching</h1>
+				</section>
+
+				<section>
+					<h1>Scaling</h1>
+				</section>
 
 
 

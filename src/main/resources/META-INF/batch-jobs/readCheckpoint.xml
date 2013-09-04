@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/beans">
+
+	<bean id="listReader" class="org.springframework.batch.jsr.chunk.ListItemReader"/>
+
+	<bean id="fileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file://tmp/numbers.txt"/>
+		<property name="lineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+		</property>
+	</bean>
+
+	<job id="checkpoint" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	    <step id="step1">
+	        <chunk>
+	            <reader ref="listReader"/>
+	            <writer ref="fileWriter"/>
+	        </chunk>
+	    </step>
+	</job>
+</beans>

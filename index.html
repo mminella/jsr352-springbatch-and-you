@@ -217,6 +217,7 @@
 					<ul>
 						<li class="fragment">Foundational technology of Spring Batch</li>
 						<li class="fragment">Not required with JSR-352</li> 
+					</ul>
 					<aside class="notes">
 						Not required meaning no JSR-299 or JSR-330 etc implementation is required
 					</aside>
@@ -243,6 +244,7 @@
 						<li class="fragment">Spring bean</li>
 						<li class="fragment">batch.xml definition</li>
 						<li class="fragment">The class itself</li>
+					</ul>
 				</section>
 
 				<section>
@@ -330,6 +332,7 @@ public abstract class AbstractItemReader implements ItemReader {
 					<ul>
 						<li class="fragment">Spring injects them on bean definitions</li>
 						<li class="fragment">JSR-352 injects properties from the job definition</li>
+					</ul>
 				</section>
 
 				<section>
@@ -355,7 +358,7 @@ public abstract class AbstractItemReader implements ItemReader {
 					<pre><code data-trim contenteditable class="xml">
 &lt;job id="personJob"&gt;
     &lt;step id="step1"&gt;
-        &lt;chunk item-count="5"&gt;
+        &lt;chunk item-count="#{jobParameters['commit.interval']}"&gt;
             &lt;reader ref="fileReader"&gt;
                 &lt;properties&gt;
                     &lt;property name="fileName" value="#{jobParameters['input.fileName']}"/&gt;
@@ -431,7 +434,7 @@ public interface Batchlet {
 				</section>
 
 				<section>
-					<h1>Chunk based interfaces</h1>
+					<h1>Chunk Related Interfaces</h1>
 					<ul>
 						<li class="fragment">ItemReader</li>
 						<li class="fragment">ItemProcessor</li>
@@ -464,6 +467,14 @@ public interface Batchlet {
 
 				<section>
 					<h1>Error handling</h1>
+				</section>
+
+				<section>
+					<h1>Retry</h1>
+				</section>
+
+				<section>
+					<h1>Skip</h1>
 				</section>
 
 				<section>
@@ -551,25 +562,19 @@ public interface Batchlet {
 					<h1>Spring XD</h1>
 				</section>
 
-				
+				<section>
+					<h1>?</h1>
+				</section>
 
+				<section>
+					<h1>Find this deck and demo code:</h1>
+					<p><a href="https://github.com/mminella/jsr352-springbatch-and-you.git">Github</a><br/>
+						<img src="./img/repository.png"/></p>
+				</section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			</div>
+			<img src="./img/springonewhite.png" style="width:20%;margin:10px;position:fixed;right:0px;bottom:0px;"/>
+		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
@@ -582,7 +587,7 @@ public interface Batchlet {
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
+				controls: false,
 				progress: true,
 				history: true,
 				center: true,

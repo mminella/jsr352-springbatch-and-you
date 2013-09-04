@@ -119,7 +119,16 @@
 
 				<section data-state="spring-involvement">
 					<h1>Spring's involvement</h1>
-					<div id="expert-group-graph">Pie graph of EG?</div>
+					<canvas id="spring-involvement-chart" width="400" height="400"></canvas>
+					<aside class="notes">
+						IBM: 2
+						Spring: 2
+						Credit Suisse: 1
+						Oracle: 1
+						RedHat: 1
+						Independent: 1
+						I'm counting myself in the Spring camp in the numbers above
+					</aside>
 				</section>
 
 				<section>
@@ -457,11 +466,14 @@ public interface Batchlet {
 				<section>
 					<h1>Listener interfaces</h1>
 					<ul>
-						<li class="fragment">JobListener</li>
-						<li class="fragment">StepListener</li>
-						<li class="fragment">ChunkListener</li>
-						<li class="fragment">SkipListener</li>
-						<li class="fragment">RetryListener</li>
+						<li class="fragment">JobListener = JobExecutionListener</li>
+						<li class="fragment">StepListener = StepExecutionListener</li>
+						<li class="fragment">ChunkListener = ChunkListener</li>
+						<li class="fragment">SkipReadListener/SkipProcessListener/SkipWriteListener = SkipListener</li>
+						<li class="fragment">RetryReadListener/RetryProcessListener/RetryWriteListener &asymp; RetryListener</li>
+						<li class="fragment">ItemReadListener = ItemReadListener</li>
+						<li class="fragment">ItemProcessListener = ItemProcessListener</li>
+						<li class="fragment">ItemWriteListener = ItemWriteListener</li>
 					</ul>
 				</section>
 
@@ -578,10 +590,49 @@ public interface Batchlet {
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
+		<script src="js/Chart.js"></script>
 
 		<script>
 
 			Reveal.addEventListener( 'spring-involvement', function() {
+				var ctx = document.getElementById("spring-involvement-chart").getContext("2d");
+				var options = {
+					animationEasing : "easeInOutCubic"
+				}
+				var data = [
+					{
+						value: 2,
+						color:"#5ED065",
+						label: 'Spring'
+					},
+					{
+						value : 2,
+						color : "#55B9BD",
+						label: 'IBM'
+					},
+					{
+						value : 1,
+						color : "#E6A267",
+						label: 'Independent'
+					},
+					{
+						value : 1,
+						color : "#E66B67",
+						label: 'Oracle'
+					},
+					{
+						value : 1,
+						color : "#5ED065",
+						label: 'Red Hat'
+					},
+					{
+						value : 1,
+						color : "#55B9BD",
+						label: 'Credit Suisse'
+					}			
+				];
+
+				new Chart(ctx).Pie(data, options);
 			}, false );
 
 			// Full list of configuration options available here:

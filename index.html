@@ -103,8 +103,8 @@
 				<section>
 					<h1>Expectations</h1>
 					<ul>
-						<li class="fragment">basic knowledge of spring</li>
-						<li class="fragment">basic knowledge of spring batch</li>
+						<li class="fragment">Basic knowledge of Spring</li>
+						<li class="fragment">Basic knowledge of Spring Satch</li>
 					</ul>
 				</section>
 
@@ -144,6 +144,10 @@
 
 				<section>
 					<div style="column-count:2;"><img src="./img/spec.png"/><img src="./img/documentation.png"/></div>
+				</section>
+
+				<section>
+					<h1>Structurally the same</h1>
 				</section>
 
 				<section>
@@ -299,47 +303,6 @@
 				</section>
 
 				<section>
-					<h1>Composed interfaces vs Abstract classes</h1>
-				</section>
-
-				<section>
-						<pre><code data-trim contenteditable class="java">
-// Spring Batch
-public interface ItemReader&lt;T&gt; {
-    T read() throws Exception;
-}
-
-public interface ItemStream {
-    void open(ExecutionContext ec) throws ItemStreamException;
-    void update(ExecutionContext ec) throws ItemStreamException;
-    void close() throws ItemStreamException;
-}
-						</code></pre>
-						<pre><code data-trim contenteditable class="java">
-// JSR-352
-public interface ItemReader {
-    public void open(Serializable checkpoint) throws Exception;
-    public void close() throws Exception;
-    public Object readItem() throws Exception;
-    public Serializable checkpointInfo() throws Exception; 
-}
-
-public abstract class AbstractItemReader implements ItemReader {
-    public void open(Serializable checkpoint) throws Exception { }
-    public void close() throws Exception { }
-    public abstract Object readItem() throws Exception;
-    public Serializable checkpointInfo() throws Exception { 
-        return null; 
-    }
-}
-						</code></pre>
-					<aside class="notes">
-						org.springframework.batch.item.ItemReader#read() throws more than just Exception, but above is for brevity
-						@Override's have been removed from javax.batch.api.chunk.AbstractItemReader for brevity
-					</aside>
-				</section>
-
-				<section>
 					<h1>Properties</h1>
 					<ul>
 						<li class="fragment">Spring injects them on bean definitions</li>
@@ -388,6 +351,26 @@ public abstract class AbstractItemReader implements ItemReader {
 					<aside class="notes">
 						All JSR-352 properties are Strings
 					</aside>
+				</section>
+
+				<section>
+					<h1>Injection of properties</h1>
+					<pre><code data-trim contenteditable class="java">
+@Inject
+@BatchProperty
+public String fileName;
+
+@Inject
+@BatchProperty(name="otherProperty")
+public String otherProperty;
+					</code></pre>
+					<aside class="notes">
+						All JSR-352 properties are Strings
+					</aside>
+				</section>
+
+				<section>
+					<h1>?</h1>
 				</section>
 
 				<section>

@@ -17,6 +17,8 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+		<script src="lib/js/prefixfree.min.js"></script>
+
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/spring.css" id="theme">
 
@@ -46,10 +48,11 @@
 					</p>
 				</section>
 
-				<section>
+				<section data-state="bio">
 					<h1>Who is this guy?</h1>
+					<img id="proSpringBatch" src="./img/proSpringBatch.jpg" style="transform: rotate(-20deg) scale(.7);float:left;visibility:hidden;"/>
 					<ul>
-						<li class="fragment">Author of Pro Spring Batch</li>
+						<li class="fragment" id="author">Author of Pro Spring Batch</li>
 						<li class="fragment">Member of the expert group for JSR-352</li>
 						<li class="fragment">Project lead for Spring Batch</li>
 					</ul>
@@ -74,7 +77,7 @@
 
 				<section>
 					<h1>Spring I/O</h1>
-					<img src="./img/springio.png"/>
+					<img style="border:0px;" src="./img/springio.png"/>
 				</section>
 
 				<section>
@@ -140,7 +143,7 @@
 				</section>
 
 				<section>
-					<p>A picture of the spec next to our documentation</p>
+					<div style="column-count:2;"><img src="./img/spec.png"/><img src="./img/documentation.png"/></div>
 				</section>
 
 				<section>
@@ -483,10 +486,52 @@ public interface Batchlet {
 
 				<section>
 					<h1>Retry</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="retry" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk retry-limit="3"&gt;
+            &lt;reader ref="retryableListReader"/&gt;
+            &lt;writer ref="fileWriter"/&gt;
+
+            &lt;!-- Retryable exceptions --&gt;
+            &lt;retryable-exception-classes&gt;
+            	&lt;include class="java.lang.RuntimeException"/&gt;
+            &lt;/retryable-exception-classes&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Read Retries</h1>
+					<ul>
+						<li class="fragment">Spring Batch hasn't supported read retries</li>
+						<li class="fragment">JSR-352 allows read retries</li>
+						<li class="fragment">Existing Spring Batch readers won't support read retry with 3.0</li>
+					</ul>
+					<aside class="notes">
+						Most Spring Batch readers are forward moving stateful readers.  They will not support retry.
+					</aside>
 				</section>
 
 				<section>
 					<h1>Skip</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="skip" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk skip-limit="3"&gt;
+            &lt;reader ref="retryableListReader"/&gt;
+            &lt;writer ref="fileWriter"/&gt;
+            
+            &lt;!-- Skippable exceptions --&gt;
+            &lt;skippable-exception-classes&gt;
+            	&lt;include class="java.lang.RuntimeException"/&gt;
+            &lt;/skippable-exception-classes&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
 				</section>
 
 				<section>
@@ -539,7 +584,52 @@ public interface Batchlet {
 				</section>
 
 				<section>
-					<p>list spring batch impls here</p>
+					<h3>Item Readers</h3>
+					<ul style="width:70%;column-count:3;font-size:50%;">
+						<li>AggregateItemReader</li>
+						<li>AmqpItemReader</li>
+						<li>FlatFileItemReader</li>
+						<li>HibernateCursorItemReader</li>
+						<li>HibernatePagingItemReader</li>
+						<li>IbatisPagingItemReader</li>
+						<li>ItemReaderAdapter</li>
+						<li>JdbcCursorItemReader</li>
+						<li>JdbcPagingItemReader</li>
+						<li>JmsItemReader</li>
+						<li>JpaPagingItemReader</li>
+						<li>ListItemReader</li>
+						<li>MongoItemReader</li>
+						<li>Neo4jItemReader</li>
+						<li>RepositoryItemReader</li>
+						<li>StoredProcedureItemReader</li>
+						<li>StaxEventItemReader</li>
+					</ul>
+					<h3>Item Writers</h3>
+					<ul style="width:70%;column-count:3;font-size:50%;">
+						<li>AmqpItemWriter</li>
+						<li>CompositeItemWriter</li>
+						<li>FlatFileItemWriter</li>
+						<li>GemfireItemWriter</li>
+						<li>HibernateItemWriter</li>
+						<li>IbatisBatchItemWriter</li>
+						<li>ItemWriterAdapter</li>
+						<li>JdbcBatchItemWriter</li>
+						<li>JmsItemWriter</li>
+						<li>JpaItemWriter</li>
+						<li>MimeMessageItemWriter</li>
+						<li>MongoItemWriter</li>
+						<li>Neo4jItemWriter</li>
+						<li>PropertyExtractingDelegatingItemWriter</li>
+						<li>RepositoryItemWriter</li>
+						<li>StaxEventItemWriter</li>
+					</ul>
+					<aside class="notes">
+						17 concrete ItemReader implementations and 16 concrete ItemWriter implementations
+					</aside>
+				</section>
+
+				<section>
+					<h1>No Inheritence</h1>
 				</section>
 
 				<section>
@@ -590,9 +680,24 @@ public interface Batchlet {
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
-		<script src="js/Chart.js"></script>
+		<script src="lib/js/Chart.js"></script>
 
 		<script>
+			Reveal.addEventListener( 'fragmentshown', function( event ) {
+			    var element = event.fragment;
+
+			    if(element.id == "author") {
+			    	document.getElementById("proSpringBatch").style.visibility = 'visible';
+			    }
+			} );
+
+			Reveal.addEventListener( 'fragmenthidden', function( event ) {
+			    var element = event.fragment;
+
+			    if(element.id == "author") {
+			    	document.getElementById("proSpringBatch").style.visibility = 'hidden';
+			    }
+			} );
 
 			Reveal.addEventListener( 'spring-involvement', function() {
 				var ctx = document.getElementById("spring-involvement-chart").getContext("2d");

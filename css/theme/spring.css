@@ -1,6 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+/** This font is used for the main text. */
+/**@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);*/
 /**
- * Default theme for reveal.js.
+ * Theme for SpringOne2GX 2013.
  *
  * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
  */
@@ -15,14 +16,15 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: #6F8822;
-  background: -moz-radial-gradient(center, circle cover, #6F8822 0%, #206A00 100%);
+/*  background: #6F8822;
+*/  background: -moz-radial-gradient(center, circle cover, #6F8822 0%, #206A00 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #6F8822), color-stop(100%, #206A00));
   background: -webkit-radial-gradient(center, circle cover, #6F8822 0%, #206A00 100%);
   background: -o-radial-gradient(center, circle cover, #6F8822 0%, #206A00 100%);
   background: -ms-radial-gradient(center, circle cover, #6F8822 0%, #206A00 100%);
   background: radial-gradient(center, circle cover, #6F8822 0%, #206A00 100%);
-  background-color: #206A00; }
+/*  background-color: #206A00; 
+*/}
 
 .reveal {
   font-family: "Lato", sans-serif;
@@ -83,7 +85,6 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid #eeeeee;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   -webkit-transition: all .2s linear;
   -moz-transition: all .2s linear;

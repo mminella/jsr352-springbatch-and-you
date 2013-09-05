@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="listeners" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	<split id="divided" next="finishedStep">
+		<flow id="flow1">
+			<step id="batchlet1">
+				<batchlet ref="org.springframework.batch.jsr.batchlet.EchoBatchlet">
+					<properties>
+						<property name="message" value="This is from Batchlet 1."/>
+					</properties>
+				</batchlet>
+			</step>
+		</flow>
+		<flow id="flow2">
+			<step id="batchlet2" next="batchlet3">
+				<batchlet ref="org.springframework.batch.jsr.batchlet.EchoBatchlet">
+					<properties>
+						<property name="message" value="This is from Batchlet 2."/>
+					</properties>
+				</batchlet>
+			</step>
+			<step id="batchlet3">
+				<batchlet ref="org.springframework.batch.jsr.batchlet.EchoBatchlet">
+					<properties>
+						<property name="message" value="This is from Batchlet 3."/>
+					</properties>
+				</batchlet>
+			</step>
+		</flow>
+	</split>
+	<step id="finishedStep">
+		<batchlet ref="org.springframework.batch.jsr.batchlet.EchoBatchlet">
+			<properties>
+				<property name="message" value="This is from Finish Step."/>
+			</properties>
+		</batchlet>
+	</step>
+</job>

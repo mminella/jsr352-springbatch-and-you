@@ -3,7 +3,7 @@
 	xmlns:util="http://www.springframework.org/schema/beans"
 	xmlns="http://www.springframework.org/schema/beans">
 
-	<bean id="retryableListReader" class="org.springframework.batch.jsr.chunk.RetryableListItemReader">
+	<bean id="skippableListReader" class="org.springframework.batch.jsr.chunk.SkippableListItemReader">
 		<constructor-arg>
 			<list>
 				<value>foo</value>
@@ -29,7 +29,7 @@
 	<bean id="readListener" class="org.springframework.batch.jsr.listener.LoggingItemReadListener"/>
 	<bean id="writeListener" class="org.springframework.batch.jsr.listener.LoggingItemWriteListener"/>
 
-	<job id="checkpoint" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	<job id="skip" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
 		<listeners>
 			<listener ref="jobListener"/>
 		</listeners>
@@ -40,12 +40,12 @@
 	    		<listener ref="readListener"/>
 	    		<listener ref="writeListener"/>
 	    	</listeners>
-	        <chunk retry-limit="3">
-	            <reader ref="retryableListReader"/>
+	        <chunk skip-limit="3">
+	            <reader ref="skippableListReader"/>
 	            <writer ref="fileWriter"/>
-	            <retryable-exception-classes>
+	            <skippable-exception-classes>
 	            	<include class="java.lang.RuntimeException"/>
-	            </retryable-exception-classes>
+	            </skippable-exception-classes>
 	        </chunk>
 	    </step>
 	</job>

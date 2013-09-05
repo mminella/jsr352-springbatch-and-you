@@ -2,20 +2,22 @@ package org.springframework.batch.jsr.listener;
 
 import javax.batch.api.chunk.listener.ChunkListener;
 
+import org.springframework.batch.jsr.Logger;
+
 public class LoggingChunkListener implements ChunkListener {
 
 	@Override
 	public void beforeChunk() throws Exception {
-		System.err.println("Before Chunk");
+		Logger.log("        Chunk -- STARTING");
 	}
 
 	@Override
 	public void onError(Exception ex) throws Exception {
-		System.err.println("The error that occured durring the chunk was: " + ex.getMessage());
+		Logger.log("        Chunk -- An error occured: " + ex.getMessage());
 	}
 
 	@Override
 	public void afterChunk() throws Exception {
-		System.err.println("After Chunk");
+		Logger.log("        Chunk -- FINISHED");
 	}
 }

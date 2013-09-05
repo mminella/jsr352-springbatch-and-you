@@ -4,6 +4,8 @@ import javax.batch.api.listener.StepListener;
 import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
+import org.springframework.batch.jsr.Logger;
+
 public class LoggingStepListener implements StepListener {
 
 	@Inject
@@ -11,11 +13,11 @@ public class LoggingStepListener implements StepListener {
 
 	@Override
 	public void beforeStep() throws Exception {
-		System.err.println("About to execute step " + stepContext.getStepName());
+		Logger.log("    " + stepContext.getStepName() + " -- STARTING");
 	}
 
 	@Override
 	public void afterStep() throws Exception {
-		System.err.println("Step " + stepContext.getStepName() + " has finished");
+		Logger.log("    " + stepContext.getStepName() + " -- FINISHED");
 	}
 }

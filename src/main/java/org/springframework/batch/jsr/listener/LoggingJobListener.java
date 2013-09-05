@@ -2,6 +2,8 @@ package org.springframework.batch.jsr.listener;
 
 import javax.batch.api.listener.JobListener;
 
+import org.springframework.batch.jsr.Logger;
+
 public class LoggingJobListener implements JobListener {
 
 	private String jobName;
@@ -12,11 +14,11 @@ public class LoggingJobListener implements JobListener {
 
 	@Override
 	public void beforeJob() throws Exception {
-		System.err.println("About to start job " + jobName);
+		Logger.log(jobName + " -- STARTING");
 	}
 
 	@Override
 	public void afterJob() throws Exception {
-		System.err.println(jobName + " has completed.");
+		Logger.log(jobName + " -- FINSHED");
 	}
 }

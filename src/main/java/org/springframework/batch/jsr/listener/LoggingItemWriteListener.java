@@ -4,20 +4,22 @@ import java.util.List;
 
 import javax.batch.api.chunk.listener.ItemWriteListener;
 
+import org.springframework.batch.jsr.Logger;
+
 public class LoggingItemWriteListener implements ItemWriteListener {
 
 	@Override
 	public void beforeWrite(List<Object> items) throws Exception {
-		System.err.println("Before writing " + items.size() + " items");
+		Logger.log("            Write -- BEFORE: " + items.size() + " items");
 	}
 
 	@Override
 	public void afterWrite(List<Object> items) throws Exception {
-		System.err.println(items.size() + " were written");
+		Logger.log("            Write -- AFTER: " + items.size() + " items");
 	}
 
 	@Override
 	public void onWriteError(List<Object> items, Exception ex) throws Exception {
-		System.err.println("An error occured while writing: " + ex.getMessage());
+		Logger.log("            Write -- ERROR: " + items.size() + " items and " + ex.getMessage());
 	}
 }

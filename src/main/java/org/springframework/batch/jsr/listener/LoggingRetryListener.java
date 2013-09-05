@@ -6,23 +6,25 @@ import javax.batch.api.chunk.listener.RetryProcessListener;
 import javax.batch.api.chunk.listener.RetryReadListener;
 import javax.batch.api.chunk.listener.RetryWriteListener;
 
+import org.springframework.batch.jsr.Logger;
+
 public class LoggingRetryListener implements RetryProcessListener,
 RetryReadListener, RetryWriteListener {
 
 	@Override
 	public void onRetryWriteException(List<Object> items, Exception ex)
 			throws Exception {
-		System.err.println("Write was retried: " + ex.getMessage());
+		Logger.log("            Retrying Write -- " + items.size() + " because of " + ex.getMessage());
 	}
 
 	@Override
 	public void onRetryReadException(Exception ex) throws Exception {
-		System.err.println("Read was retried: " + ex.getMessage());
+		Logger.log("            Retrying Read -- " + ex.getMessage());
 	}
 
 	@Override
 	public void onRetryProcessException(Object item, Exception ex)
 			throws Exception {
-		System.err.println("Process was retried for item " + item + " : " + ex.getMessage());
+		Logger.log("            Retrying Process -- " + item + " because of " + ex.getMessage());
 	}
 }

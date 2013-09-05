@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/beans">
+
+	<bean id="listReader" class="org.springframework.batch.item.support.ListItemReader">
+		<constructor-arg>
+			<list>
+				<value>foo</value>
+				<value>bar</value>
+				<value>spam</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="fileWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file://tmp/numbers.txt"/>
+		<property name="lineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator"/>
+		</property>
+	</bean>
+
+ 	<bean id="jobListener" class="org.springframework.batch.jsr.listener.LoggingJobListener">
+		<property name="jobName" value="listeners"/>
+	</bean>
+ 	<bean id="stepListener" class="org.springframework.batch.jsr.listener.LoggingStepListener"/>
+	<bean id="chunkListener" class="org.springframework.batch.jsr.listener.LoggingChunkListener"/>
+	<bean id="readListener" class="org.springframework.batch.jsr.listener.LoggingItemReadListener"/>
+	<bean id="writeListener" class="org.springframework.batch.jsr.listener.LoggingItemWriteListener"/>
+
+	<job id="listeners" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+		<listeners>
+			<listener ref="jobListener"/>
+		</listeners>
+	    <step id="step1">
+ 	    	<listeners>
+	    		<listener ref="stepListener"/>
+	    		<listener ref="chunkListener"/>
+	    		<listener ref="readListener"/>
+	    		<listener ref="writeListener"/>
+	    	</listeners>
+	        <chunk>
+	            <reader ref="listReader"/>
+	            <writer ref="fileWriter"/>
+	        </chunk>
+	    </step>
+	</job>
+</beans>

@@ -539,7 +539,31 @@ public interface Batchlet {
 				</section>
 
 				<section>
+					<h1>JobOperator</h1>
+					<pre><code data-trim contenteditable class="java">
+JobOperator jobOperator = BatchRuntime.getJobOperator();
+
+// start
+long jobExecutionId = jobOperator.start("myJob", new Properties());
+
+// restart
+long newJobExecutionId = jobOperator.restart(jobExecutionId, new Properties());
+
+// stop
+jobOperator.stop(jobExecutionid);
+					</code></pre>
+					<aside class="notes">
+						A cross between Spring Batch's JobOperator and JobExplorer
+					</aside>
+				</section>
+
+				<section>
 					<h1>Scaling</h1>
+				</section>
+
+				<section>
+					<h1>Splits</h1>
+					<p>Same as Spring Batch</p>
 				</section>
 
 				<section>

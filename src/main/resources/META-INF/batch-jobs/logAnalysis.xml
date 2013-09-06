@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<job id="skip" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+<job id="logAnalysis" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
 	<step id="split" next="import">
 		<batchlet ref="org.springframework.batch.jsr.batchlet.FileSplittingBatchlet">
 			<properties>
@@ -16,7 +16,7 @@
 				</properties>
 			</reader>
 			<processor ref="org.springframework.batch.jsr.chunk.GeocodingItemProcessor"/>
-			<writer ref="org.springframework.batch.jsr.chunk.WritingItemWriter"/>
+			<writer ref="org.springframework.batch.jsr.chunk.LogEntryItemWriter"/>
 			<skippable-exception-classes>
 				<include class="java.lang.IllegalStateException"/>
 			</skippable-exception-classes>

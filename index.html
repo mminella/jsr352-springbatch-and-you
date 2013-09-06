@@ -104,7 +104,7 @@
 					<h1>Expectations</h1>
 					<ul>
 						<li class="fragment">Basic knowledge of Spring</li>
-						<li class="fragment">Basic knowledge of Spring Satch</li>
+						<li class="fragment">Basic knowledge of Spring Batch</li>
 					</ul>
 				</section>
 
@@ -374,11 +374,41 @@ public String otherProperty;
 				</section>
 
 				<section>
-					<h1>Step Processing Models</h1>
+					<h1>Let's build an app!</h1>
 				</section>
 
 				<section>
-					<p>Image of job with both tasklet and chunk processing</p>
+					<video id="starWarsKid" controls="controls" 
+					       src="./video/starWarsKid.mp4"
+					       width="320" height="240"
+					       preload="auto">
+					</video>
+				</section>
+
+				<section>
+					<h1>Logs of a viral video</h1>
+					<ul>
+						<li class="fragment">Released in 2003.</li>
+						<li class="fragment">Downloaded 1.1 million times the first 2 weeks</li>
+						<li class="fragment">Since been downloaded 40 million times since it was moved to YouTube</li>
+						<li class="fragment">2008, Andy Baio posted the Apache logs for the first 6 months</li>
+						<li class="fragment">File is 1.6 GB unzipped and available via BitTorent</li>
+						<li class="fragment">File was originally called "ghyslain_razaa.wmv"</li>
+						<li class="fragment">File was later renamed to "Star_Wars_Kid.wmv"</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Who was watching this video?</h1>
+				</section>
+
+				<section>
+					<h1>What's the app going to look like</h1>
+					<p>Insert diagram</p>
+				</section>
+
+				<section>
+					<h1>Step Processing Models</h1>
 				</section>
 
 				<section>
@@ -407,6 +437,33 @@ public interface Batchlet {
     public void stop() throws Exception;  
 }
 					</code></pre>
+				</section>
+
+				<section>
+					<h1>Step 1...split the file</h1>
+				</section>
+
+				<section>
+					<h1>Launching</h1>
+				</section>
+
+				<section>
+					<h1>JobOperator</h1>
+					<pre><code data-trim contenteditable class="java">
+JobOperator jobOperator = BatchRuntime.getJobOperator();
+
+// start
+long jobExecutionId = jobOperator.start("myJob", new Properties());
+
+// restart
+long newJobExecutionId = jobOperator.restart(jobExecutionId, new Properties());
+
+// stop
+jobOperator.stop(jobExecutionid);
+					</code></pre>
+					<aside class="notes">
+						A cross between Spring Batch's JobOperator and JobExplorer
+					</aside>
 				</section>
 
 				<section>
@@ -441,30 +498,39 @@ public interface Batchlet {
 					<h1>Checkpoints</h1>
 					<ul>
 						<li class="fragment">Item</li>
-						<li class="fragment">Timeout</li>
 						<li class="fragment">Custom</li>
 					</ul>
 					<aside class="notes">
 						Equivilant to Spring Batch's CompletionPolicy
+						There is also a timeout component to checkpoints
 					</aside>
 				</section>
 
 				<section>
-					<h1>Listener interfaces</h1>
-					<ul>
-						<li class="fragment">JobListener = JobExecutionListener</li>
-						<li class="fragment">StepListener = StepExecutionListener</li>
-						<li class="fragment">ChunkListener = ChunkListener</li>
-						<li class="fragment">SkipReadListener/SkipProcessListener/SkipWriteListener = SkipListener</li>
-						<li class="fragment">RetryReadListener/RetryProcessListener/RetryWriteListener &asymp; RetryListener</li>
-						<li class="fragment">ItemReadListener = ItemReadListener</li>
-						<li class="fragment">ItemProcessListener = ItemProcessListener</li>
-						<li class="fragment">ItemWriteListener = ItemWriteListener</li>
-					</ul>
+					<h1>Step 2...import the file</h1>
 				</section>
 
 				<section>
 					<h1>Error handling</h1>
+				</section>
+
+				<section>
+					<h1>Skip</h1>
+					<pre><code data-trim contenteditable>
+&lt;job id="skip" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0"&gt;
+    &lt;step id="step1"&gt;
+        &lt;chunk skip-limit="3"&gt;
+            &lt;reader ref="retryableListReader"/&gt;
+            &lt;writer ref="fileWriter"/&gt;
+            
+            &lt;!-- Skippable exceptions --&gt;
+            &lt;skippable-exception-classes&gt;
+            	&lt;include class="java.lang.RuntimeException"/&gt;
+            &lt;/skippable-exception-classes&gt;
+        &lt;/chunk&gt;
+    &lt;/step&gt;
+&lt;/job&gt;
+					</code></pre>
 				</section>
 
 				<section>
@@ -495,48 +561,6 @@ public interface Batchlet {
 					</ul>
 					<aside class="notes">
 						Most Spring Batch readers are forward moving stateful readers.  They will not support retry.
-					</aside>
-				</section>
-
-				<section>
-					<h1>Skip</h1>
-					<pre><code data-trim contenteditable>
-&lt;job id="skip" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0"&gt;
-    &lt;step id="step1"&gt;
-        &lt;chunk skip-limit="3"&gt;
-            &lt;reader ref="retryableListReader"/&gt;
-            &lt;writer ref="fileWriter"/&gt;
-            
-            &lt;!-- Skippable exceptions --&gt;
-            &lt;skippable-exception-classes&gt;
-            	&lt;include class="java.lang.RuntimeException"/&gt;
-            &lt;/skippable-exception-classes&gt;
-        &lt;/chunk&gt;
-    &lt;/step&gt;
-&lt;/job&gt;
-					</code></pre>
-				</section>
-
-				<section>
-					<h1>Launching</h1>
-				</section>
-
-				<section>
-					<h1>JobOperator</h1>
-					<pre><code data-trim contenteditable class="java">
-JobOperator jobOperator = BatchRuntime.getJobOperator();
-
-// start
-long jobExecutionId = jobOperator.start("myJob", new Properties());
-
-// restart
-long newJobExecutionId = jobOperator.restart(jobExecutionId, new Properties());
-
-// stop
-jobOperator.stop(jobExecutionid);
-					</code></pre>
-					<aside class="notes">
-						A cross between Spring Batch's JobOperator and JobExplorer
 					</aside>
 				</section>
 

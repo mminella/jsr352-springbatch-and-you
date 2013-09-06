@@ -574,23 +574,50 @@ jobOperator.stop(jobExecutionid);
 				</section>
 
 				<section>
+					<h1>Partitioning</h1>
+					<ul>
+						<li class="fragment">Executes chunks or multiple instances of Batchlets in parallel</li>
+						<li class="fragment">Two configuration options
+							<ul>
+								<li>Hardcoded in XML</li>
+								<li>PartitionMapper</li>
+							</ul>
+						</li>
+						<li class="fragment">Addes two additional concepts...</li>
+				</section>
+
+				<section>
+					<h1>Partition Reducer</h1>
+					<ul>
+						<li class="fragment">Provides a hook for compensating logic upon failure</li>
+						<li class="fragment">Really just a specilized StepListener/StepExecutionListenr</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Partition Collector/Analizer</h1>
+					<ul>
+						<li class="fragment">Collector collects data from batch artifacts</li>
+						<li class="fragment">Analizer allows the ability to set ExitStatus after a partitioned step</li>
+					</ul>
+					<aside class="notes">
+						Provides a standardized way of aggregating results of partitioned steps programatically
+					</aside>
+				</section>
+
+				<section>
 					<h1>Spring Batch's Implementation</h1>
 				</section>
 
 				<section>
-					<h1>We've already seen it...</h1>
-				</section>
-
-				<section>
-					<h1>We've been using it all along!</h1>
-				</section>
-
-				<section>
-					<h1>Allow the use of existing components with JSR-352</h1>
-				</section>
-
-				<section>
-					<h1>Beyond JSR-352</h1>
+					<h1>"Raw" JSR-352 version</h1>
+					<ul>
+						<li class="fragment">Classes: </li>
+						<li class="fragment">Lines of custom code: </li>
+					</ul>
+					<aside class="notes">
+						None of the above numbers include unit tests
+					</aside>
 				</section>
 
 				<section>
@@ -660,6 +687,26 @@ jobOperator.stop(jobExecutionid);
 				</section>
 
 				<section>
+					<h1>Same app...Spring-ified</h1>
+				</section>
+
+				<section>
+					<h1>Comparison</h1>
+				</section>
+
+				<section>
+					<h1>Beyond JSR-352</h1>
+				</section>
+
+				<section>
+					<h1>Spring!</h1>
+				</section>
+
+				<section>
+					<h1>Type safe properties</h1>
+				</section>
+
+				<section>
 					<h1>No Inheritence</h1>
 				</section>
 
@@ -703,6 +750,29 @@ jobOperator.stop(jobExecutionid);
 					<h1>Find this deck and demo code:</h1>
 					<p><a href="https://github.com/mminella/jsr352-springbatch-and-you.git">Github</a><br/>
 						<img src="./img/repository.png"/></p>
+				</section>
+
+				<section>
+					<h1>Keep in touch!</h1>
+					<ul>
+						<li>Michael Minella
+							<ul>
+								<li>Twitter: <a href="https://twitter.com/michaelminella">@MichaelMinella</a></li>
+								<li>Github: <a href="https://github.com/mminella">mminella</a></li>
+							</ul>
+						</li>
+						<li>Spring Batch
+							<ul>
+								<li>Site: <a href="http://spring.io/projects/spring-batch">Spring Batch</a></li>
+								<li>Session replays on YouTube: <a href="http://spring.io/video">YouTube</a></li>
+							</ul>
+						</li>
+						<li>Spring
+							<ul>
+								<li>Site: <a href="http://spring.io/">Spring IO</a></li>
+							</ul>
+						</li>
+					</ul>
 				</section>
 
 			</div>

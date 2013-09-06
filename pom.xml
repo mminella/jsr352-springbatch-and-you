@@ -162,6 +162,11 @@
 			<artifactId>javax.inject-tck</artifactId>
 			<version>1</version>
 		</dependency>
+		<dependency>
+		    <groupId>com.maxmind.geoip2</groupId>
+		    <artifactId>geoip2</artifactId>
+		    <version>0.4.1</version>
+		</dependency>
     </dependencies>
     <build>
         <extensions>

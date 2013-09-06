@@ -17,7 +17,7 @@ public class JsrMainClass {
 		boolean restart = false;
 
 		for(int i = 1; i < args.length; i++) {
-			jobParameters.put(args[i].substring(0, args[i].indexOf('=')), args[1].substring(args[i].indexOf('=') + 1));
+			jobParameters.put(args[i].substring(0, args[i].indexOf('=')), args[i].substring(args[i].indexOf('=') + 1));
 		}
 
 		long executionId = -1;

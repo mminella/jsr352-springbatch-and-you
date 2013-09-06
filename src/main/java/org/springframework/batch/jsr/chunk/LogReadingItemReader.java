@@ -14,11 +14,9 @@ import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.ItemReader;
 import javax.inject.Inject;
 
-import org.springframework.batch.jsr.Logger;
 import org.springframework.batch.jsr.domain.LogEntry;
 
 /**
- * 216.196.144.189 - - [15/Jul/2003:22:30:24 -0700] "GET /archive/2003/04/29/star_war.shtml HTTP/1.1" 200 81548 "http://tvulive.com/radiou/riot.shtm" "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"
  * @author Michael Minella
  *
  */
@@ -32,14 +30,15 @@ public class LogReadingItemReader implements ItemReader {
 	private HashSet<String> filesRead;
 	private Set<String> filesToRead;
 	private String curFile;
-	private Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+) - - \\[(\\d+/\\w+/\\d+:\\d+:\\d+:\\d+ [+-]\\d+)\\] \"\\w+ ((/[^/ ]*)+)");
+	private static final String IP_REG_EX = "\\d+\\.\\d+\\.\\d+\\.\\d+";
+	private static final String DATE_REG_EX = "\\d+/\\w+/\\d+:\\d+:\\d+:\\d+ [+-]\\d+";
+	private static final String FILE_NAME_REG_EX = "(/[^/ ]*)+";
+	private Pattern pattern = Pattern.compile("(" + IP_REG_EX + ") - - \\[(" + DATE_REG_EX + ")\\] \"\\w+ (" + FILE_NAME_REG_EX + ")");
 	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy:kk:mm:ss Z");
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void open(Serializable checkpoint) throws Exception {
-		Logger.log("directoryName = " + directoryName);
-
 		if(checkpoint != null) {
 			filesRead = (HashSet<String>) checkpoint;
 		} else {

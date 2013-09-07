@@ -75,9 +75,7 @@
 					<img src="./img/repository.png"/>
 				</section>
 
-				<section>
-					<h1>Spring I/O</h1>
-					<img style="border:0px;" src="./img/springio.png"/>
+				<section data-background="./img/springio.png" data-background-transition="slide">
 				</section>
 
 				<section>
@@ -307,6 +305,7 @@
 					<ul>
 						<li class="fragment">Spring injects them on bean definitions</li>
 						<li class="fragment">JSR-352 injects properties from the job definition</li>
+						<li class="fragment">JSR-352 properties are Strings only</li>
 					</ul>
 				</section>
 
@@ -403,8 +402,8 @@ public String otherProperty;
 				</section>
 
 				<section>
-					<h1>What's the app going to look like</h1>
-					<p>Insert diagram</p>
+					<h1>Our Job</h1>
+					<img src="./img/logAnalysis.png"/>
 				</section>
 
 				<section>
@@ -472,17 +471,17 @@ jobOperator.stop(jobExecutionid);
 
 				<section>
 					<h1>Spring Batch</h1>
-					<p>Old sequence diagram</p>
+					<img src="./img/oldSequence.png"/>
 				</section>
 
 				<section>
-					<h1>Real Spring Batch chunking</h1>
-					<p>New sequence diagram</p>
+					<h1>Spring Batch Really</h1>
+					<img src="./img/realSequence.png"/>
 				</section>
 
 				<section>
 					<h1>JSR-352</h1>
-					<p>Old sequence diagram</p>
+					<img src="./img/oldSequence.png"/>
 				</section>
 
 				<section>
@@ -501,7 +500,7 @@ jobOperator.stop(jobExecutionid);
 						<li class="fragment">Custom</li>
 					</ul>
 					<aside class="notes">
-						Equivilant to Spring Batch's CompletionPolicy
+						Equivalent to Spring Batch's CompletionPolicy
 						There is also a timeout component to checkpoints
 					</aside>
 				</section>
@@ -583,30 +582,30 @@ jobOperator.stop(jobExecutionid);
 								<li>PartitionMapper</li>
 							</ul>
 						</li>
-						<li class="fragment">Addes two additional concepts...</li>
+						<li class="fragment">Adds two additional concepts...</li>
 				</section>
 
 				<section>
 					<h1>Partition Reducer</h1>
 					<ul>
 						<li class="fragment">Provides a hook for compensating logic upon failure</li>
-						<li class="fragment">Really just a specilized StepListener/StepExecutionListenr</li>
+						<li class="fragment">Really just a specialized StepListener/StepExecutionListenr</li>
 					</ul>
 				</section>
 
 				<section>
-					<h1>Partition Collector/Analizer</h1>
+					<h1>Partition Collector/<br/>Analyzer</h1>
 					<ul>
 						<li class="fragment">Collector collects data from batch artifacts</li>
-						<li class="fragment">Analizer allows the ability to set ExitStatus after a partitioned step</li>
+						<li class="fragment">Analyzer allows the ability to set ExitStatus after a partitioned step</li>
 					</ul>
 					<aside class="notes">
-						Provides a standardized way of aggregating results of partitioned steps programatically
+						Provides a standardized way of aggregating results of partitioned steps programmatically
 					</aside>
 				</section>
 
 				<section>
-					<h1>Spring Batch's Implementation</h1>
+					<h1>Spring Batch's<br/>Implementation</h1>
 				</section>
 
 				<section>
@@ -638,12 +637,12 @@ jobOperator.stop(jobExecutionid);
 				</section>
 
 				<section>
-					<h1>JSR-352 provides 0 implementations</h1>
+					<h1>JSR-352 provides 0<br/>implementations</h1>
 				</section>
 
-				<section>
+				<section id="components">
 					<h3>Item Readers</h3>
-					<ul style="width:70%;column-count:3;font-size:50%;">
+					<ul style="width:80%;column-count:3;column-gap:0px;font-size:50%;">
 						<li>AggregateItemReader</li>
 						<li>AmqpItemReader</li>
 						<li>FlatFileItemReader</li>
@@ -663,7 +662,7 @@ jobOperator.stop(jobExecutionid);
 						<li>StaxEventItemReader</li>
 					</ul>
 					<h3>Item Writers</h3>
-					<ul style="width:70%;column-count:3;font-size:50%;">
+					<ul style="width:80%;column-count:3;column-gap:0px;font-size:50%;">
 						<li>AmqpItemWriter</li>
 						<li>CompositeItemWriter</li>
 						<li>FlatFileItemWriter</li>

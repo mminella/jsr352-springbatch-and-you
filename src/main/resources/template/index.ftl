@@ -4,6 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style>
+	.fill-undefined {
+		fill: #F7FCF5;
+	}
 	.graticule {
 	  fill: none;
 	  stroke: #777;
@@ -11,46 +14,39 @@
 	  stroke-opacity: .5;
 	}
 
+	.subunit-boundary {
+		fill: none;
+		stroke: #bbb;
+		stoke-width: .5px;
+	}
+
 	.fill-1 {
-		fill: #D8F6CE;
+		fill: #E5F5E0;
 	}
 
 	.fill-2 {
-		fill: #BCF5A9;
+		fill: #C7E9C0;
 	}
 
 	.fill-3 {
-		fill: #9FF781;
+		fill: #A1D99B;
 	}
 
 	.fill-4 {
-		fill: #58FA58;
+		fill: #74C476;
 	}
 
 	.fill-5 {
-		fill: #64FE2E;
+		fill: #41AB5D;
 	}
 
 	.fill-6 {
-		fill: #40FF00;
+		fill: #238B45;
 	}
 
 	.fill-7 {
-		fill: #3ADF00;
+		fill: #005A32;
 	}
-
-	.fill-8 {
-		fill: #31B404;
-	}
-
-	.fill-9 {
-		fill: #088A08;
-	}
-
-	.fill-10 {
-		fill: #21610B;
-	}
-
 </style>
 </head>
 <body>
@@ -93,6 +89,11 @@ d3.json("./js/world.json", function(error, world) {
   		.enter().append("path")
     	.attr("class", function(d) { console.log(d.id); return "fill-" + scores[d.id]; })
     	.attr("d", path);
+
+    svg.append("path")
+      .datum(topojson.mesh(world, world.objects.subunits, function(a, b) { return a !== b; }))
+      .attr("d", path)
+      .attr("class", "subunit-boundary");
 });
 </script>
 

@@ -92,7 +92,26 @@ public class ReportBatchlet implements Batchlet {
 			long max) {
 
 		for (Map<String, Object> map : countries) {
-			map.put("scale", (((10 - 1) * (((Long)map.get("count")).longValue() - min))/(max - min)) + 1l);
+			long count = (Long) map.get("count");
+			int scale = 0;
+
+			if (count > 0 && count <= 10) {
+				scale = 1;
+			} else if (count > 10 && count <= 100) {
+				scale = 2;
+			} else if (count > 100 && count <= 1000) {
+				scale = 3;
+			} else if (count > 1000 && count <= 10000) {
+				scale = 4;
+			} else if (count > 10000 && count <= 100000) {
+				scale = 5;
+			} else if (count > 100000 && count <= 1000000) {
+				scale = 6;
+			} else if (count > 1000000) {
+				scale = 7;
+			}
+
+			map.put("scale", scale);
 		}
 	}
 

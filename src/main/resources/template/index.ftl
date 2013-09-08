@@ -20,6 +20,7 @@
 		stoke-width: .5px;
 	}
 
+	/** Colors by http://colorbrewer2.org */
 	.fill-1 {
 		fill: #E5F5E0;
 	}

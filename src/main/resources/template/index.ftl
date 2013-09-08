@@ -12,43 +12,43 @@
 	}
 
 	.fill-1 {
-		fill: #F00;
+		fill: #D8F6CE;
 	}
 
 	.fill-2 {
-		fill: #0F0;
+		fill: #BCF5A9;
 	}
 
 	.fill-3 {
-		fill: #00F;
+		fill: #9FF781;
 	}
 
 	.fill-4 {
-		fill: #700;
+		fill: #58FA58;
 	}
 
 	.fill-5 {
-		fill: #070;
+		fill: #64FE2E;
 	}
 
 	.fill-6 {
-		fill: #007;
+		fill: #40FF00;
 	}
 
 	.fill-7 {
-		fill: #100;
+		fill: #3ADF00;
 	}
 
 	.fill-8 {
-		fill: #010;
+		fill: #31B404;
 	}
 
 	.fill-9 {
-		fill: #001;
+		fill: #088A08;
 	}
 
 	.fill-10 {
-		fill: #AAA;
+		fill: #21610B;
 	}
 
 </style>

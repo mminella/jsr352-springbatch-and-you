@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+
+	<bean id="fileSplittingBatchlet" class="org.springframework.batch.core.step.tasklet.SystemCommandTasklet" scope="step">
+		<property name="command" value="split -a 5 -l 10000 #{jobParameters['inputFile']} #{jobParameters['stagingDirectory']}"/>
+	</bean>
+
+	<bean id="logReader" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="delegate">
+			<bean class="org.springframework.batch.item.file.FlatFileItemReader">
+				<property name="lineMapper">
+					<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+						<property name="lineTokenizer">
+							<bean class="org.springframework.batch.item.file.transform.RegexLineTokenizer">
+								<property name="regex" value="(\\d+\\.\\d+\\.\\d+\\.\\d+) - - \\[(\\d+/\\w+/\\d+:\\d+:\\d+:\\d+ [+-]\\d+)\\] \&quot;\\w+ ((/[^/ ]*)+)"></property>
+							</bean>
+						</property>
+						<property name="fieldSetMapper">
+							<bean class="org.springframework.batch.jsr.chunk.LogEntryFieldSetMapper">
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="resources" value="#{jobParameters['stagingDirectory']}" />
+	</bean>
+
+	<bean id="jdbcWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+        <property name="itemSqlParameterSourceProvider">
+            <bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+        </property>
+        <property name="sql" value="INSERT INTO logEntry (ip_address, requested_url, country_code, view_date) VALUES(:ipAddress, :requestedUrl, :countryCode, :viewDate)" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+	<job id="logAnalysis" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+		<step id="split" next="import">
+			<batchlet ref="fileSplittingBatchlet"/>
+		</step>
+		<step id="import" next="report">
+			<chunk item-count="10000" skip-limit="10000000">
+				<reader ref="logReader"/>
+				<processor ref="org.springframework.batch.jsr.chunk.GeocodingItemProcessor"/>
+				<writer ref="jdbcWriter"/>
+				<skippable-exception-classes>
+					<include class="java.lang.IllegalStateException"/>
+				</skippable-exception-classes>
+			</chunk>
+		</step>
+		<step id="report">
+			<batchlet ref="org.springframework.batch.jsr.batchlet.ReportBatchlet"/>
+		</step>
+	</job>
+</beans>

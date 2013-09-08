@@ -49,12 +49,14 @@ public class ReportBatchlet implements Batchlet {
 
 			Set<String> codes = CountryCodeMapper.mapCountryCode(countryCode);
 
-			for (String code : codes) {
-				Map<String, Object> country = new HashMap<String, Object>();
-				country.put("countryCode", code);
-				country.put("count", count);
+			if(codes != null) {
+				for (String code : codes) {
+					Map<String, Object> country = new HashMap<String, Object>();
+					country.put("countryCode", code);
+					country.put("count", count);
 
-				countries.add(country);
+					countries.add(country);
+				}
 			}
 
 			if(count > max) {

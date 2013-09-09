@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Map of a Viral Video</title>
 <style>
 	.fill-undefined {
 		fill: #F7FCF5;
@@ -72,7 +72,7 @@
 	}
 	.description {
 		color: white;
-		margin: 20px 0px;
+		margin: 10px 0px 0px 0px;
 		background-color: rgb(109, 179, 63);
 		width: 100%;
 	}

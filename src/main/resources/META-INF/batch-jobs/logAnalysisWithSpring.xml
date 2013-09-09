@@ -4,7 +4,11 @@
 
 	<bean id="fileSplittingBatchlet" class="org.springframework.batch.core.step.tasklet.SystemCommandTasklet" scope="step">
 		<property name="command" value="split -a 5 -l 10000 #{jobParameters['inputFile']} #{jobParameters['stagingDirectory']}"/>
+		<property name="timeout" value="60000"/>
+		<property name="workingDirectory" value="/tmp/jsr_temp"/>
 	</bean>
+
+	<bean id="stepListener" class="org.springframework.batch.jsr.listener.LoggingStepListener"/>
 
 	<bean id="logReader" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
 		<property name="delegate">
@@ -13,7 +17,9 @@
 					<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
 						<property name="lineTokenizer">
 							<bean class="org.springframework.batch.item.file.transform.RegexLineTokenizer">
-								<property name="regex" value="(\\d+\\.\\d+\\.\\d+\\.\\d+) - - \\[(\\d+/\\w+/\\d+:\\d+:\\d+:\\d+ [+-]\\d+)\\] \&quot;\\w+ ((/[^/ ]*)+)"></property>
+								<property name="regex">
+									<value><![CDATA[(\d+\.\d+\.\d+\.\d+) - - \[(\d+/\w+/\d+:\d+:\d+:\d+ [+-]\d+)\] "\w+ ((/[^/ ]*)+)]]></value>
+								</property>
 							</bean>
 						</property>
 						<property name="fieldSetMapper">
@@ -24,7 +30,7 @@
 				</property>
 			</bean>
 		</property>
-		<property name="resources" value="#{jobParameters['stagingDirectory']}" />
+		<property name="resources" value="file:#{jobParameters['stagingDirectory']}/*" />
 	</bean>
 
 	<bean id="jdbcWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
@@ -37,6 +43,9 @@
 
 	<job id="logAnalysis" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
 		<step id="split" next="import">
+			<listeners>
+				<listener ref="stepListener"/>
+			</listeners>
 			<batchlet ref="fileSplittingBatchlet"/>
 		</step>
 		<step id="import" next="report">

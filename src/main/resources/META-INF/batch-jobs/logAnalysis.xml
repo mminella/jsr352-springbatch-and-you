@@ -12,7 +12,7 @@
 		<chunk item-count="10000" skip-limit="10000000">
 			<reader ref="org.springframework.batch.jsr.chunk.LogReadingItemReader">
 				<properties>
-					<property name="directoryName" value="#{jobParameters['inputDirectory']}"/>
+					<property name="directoryName" value="#{jobParameters['stagingDirectory']}"/>
 				</properties>
 			</reader>
 			<processor ref="org.springframework.batch.jsr.chunk.GeocodingItemProcessor"/>

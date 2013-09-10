@@ -49,6 +49,7 @@
 		fill: #005A32;
 	}
 	body {
+		font-family: Arial, Helvetica, sans-serif
 		margin: 0;
 		background-color: #777;
 	}

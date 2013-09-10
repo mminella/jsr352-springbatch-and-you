@@ -13,8 +13,6 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 
 public class GeocodingItemProcessor implements ItemProcessor {
 
-	//	private static final String ORIGINAL_FILE_NAME = "ghyslain_razaa.wmv";
-	//	private static final String NEW_FILE_NAME = "Star_Wars_Kid.wmv";
 	private DatabaseReader reader;
 
 	public GeocodingItemProcessor() throws Exception {

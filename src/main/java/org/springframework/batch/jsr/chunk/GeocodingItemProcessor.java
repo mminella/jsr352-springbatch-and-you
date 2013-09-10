@@ -32,11 +32,6 @@ public class GeocodingItemProcessor implements ItemProcessor {
 			return null;
 		}
 
-		//		String url = entry.getRequestedUrl();
-		//		if(url.indexOf(ORIGINAL_FILE_NAME) >= 0 || url.indexOf(NEW_FILE_NAME) >= 0) {
 		return entry;
-		//		} else {
-		//			return null;
-		//		}
 	}
 }

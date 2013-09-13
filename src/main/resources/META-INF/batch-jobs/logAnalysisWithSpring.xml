@@ -54,7 +54,7 @@
 				<processor ref="org.springframework.batch.jsr.chunk.GeocodingItemProcessor"/>
 				<writer ref="jdbcWriter"/>
 				<skippable-exception-classes>
-					<include class="java.lang.IllegalStateException"/>
+					<include class="org.springframework.batch.item.file.FlatFileParseException"/>
 				</skippable-exception-classes>
 			</chunk>
 		</step>
